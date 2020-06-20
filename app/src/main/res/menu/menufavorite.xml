@@ -3,6 +3,6 @@
     <item
             app:showAsAction="always"
             android:id="@+id/menu_favorite"
-            android:icon="@drawable/ic_unfavorite_border_black_24dp"
+            android:icon="@drawable/ic_favorite_black_24dp"
             android:title="Favorite"/>
 </menu>

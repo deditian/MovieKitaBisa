@@ -34,7 +34,7 @@ class DetailActivity : AppCompatActivity() {
         setContentView(R.layout.activity_detail)
         println("deditian Detail  id_data : $id_data")
         observeViewModelIDDetail(id_data)
-        bottomSheetDetail(id_data)
+        bottomSheetDetail()
         observeViewModelReviewer(id_data)
 
         detailActivityAdapter = DetailActivityAdapter()
@@ -73,7 +73,7 @@ class DetailActivity : AppCompatActivity() {
         })
     }
 
-    private fun bottomSheetDetail(id_data: Int){
+    private fun bottomSheetDetail(){
         bottomSheetBehavior = BottomSheetBehavior.from(bottom_sheet_detail)
         btnReviewer.setOnClickListener {
             if (bottomSheetBehavior.state != BottomSheetBehavior.STATE_EXPANDED) {

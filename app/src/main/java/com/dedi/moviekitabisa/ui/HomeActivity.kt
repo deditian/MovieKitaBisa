@@ -1,8 +1,11 @@
 package com.dedi.moviekitabisa.ui
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.LinearLayout
 import androidx.lifecycle.Observer
@@ -31,7 +34,6 @@ class HomeActivity : AppCompatActivity() {
         rv_history?.adapter = homeActivityAdapter
         observeViewModelPopular()
     }
-
 
     private fun bottomSheet(){
         bottomSheetBehavior = BottomSheetBehavior.from(bottom_sheet)
@@ -121,5 +123,22 @@ class HomeActivity : AppCompatActivity() {
             homeActivityAdapter?.notifyDataSetChanged()
 
         })
+    }
+
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val inflater = menuInflater
+        inflater.inflate(R.menu.menufavorite, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.menu_favorite -> {
+                startActivity(Intent(this, FavoriteActivity::class.java))
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+
     }
 }

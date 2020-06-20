@@ -4,4 +4,6 @@
     <string name="popular">Popular</string>
     <string name="categori">Category</string>
     <string name="Reviewer">Reviewer</string>
+    <string name="DetailMovie">Detail Movie</string>
+    <string name="Favorite">Favorite</string>
 </resources>
