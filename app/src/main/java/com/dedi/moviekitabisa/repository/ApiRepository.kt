@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import com.dedi.moviekitabisa.BuildConfig
 import com.dedi.moviekitabisa.api.ApiService
 import com.dedi.moviekitabisa.data.DetailRespone
+import com.dedi.moviekitabisa.data.DetailReviewRespone
 import com.dedi.moviekitabisa.data.MovieRespone
 
 
@@ -96,6 +97,24 @@ class ApiRepository : ApiCallback {
             override fun onFailure(call: Call<DetailRespone>, t: Throwable) {
                 data.value=null
                 Log.i(TAG, "code_responese null"+ t.printStackTrace())
+            }
+        })
+        return data
+    }
+
+    override fun getMoviesIdReviewDetail(id_detail: Int, uid: String): LiveData<DetailReviewRespone> {
+        val data = MutableLiveData<DetailReviewRespone>()
+        apiService?.requestMovieIdReviewDetailApi(id_detail,uid)?.enqueue(object : Callback<DetailReviewRespone> {
+            override fun onResponse(call: Call<DetailReviewRespone>, response: Response<DetailReviewRespone>) {
+                if (response.code() == 200 || response.isSuccessful) {
+                    data.value = response.body()
+                    Log.i(TAG, "code_responese getMoviesIdReviewDetail "+response.code())
+                }
+            }
+
+            override fun onFailure(call: Call<DetailReviewRespone>, t: Throwable) {
+                data.value=null
+                Log.i(TAG, "getMoviesIdReviewDetail null"+ t.printStackTrace())
             }
         })
         return data

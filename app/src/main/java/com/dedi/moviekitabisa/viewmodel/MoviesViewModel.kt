@@ -4,11 +4,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.dedi.moviekitabisa.BuildConfig
 import com.dedi.moviekitabisa.data.DetailRespone
+import com.dedi.moviekitabisa.data.DetailReviewRespone
 import com.dedi.moviekitabisa.data.MovieRespone
 import com.dedi.moviekitabisa.repository.ApiCallback
 
 
-class MoviesViewModel(val moviesCallback: ApiCallback) : ViewModel() {
+class MoviesViewModel(private val moviesCallback: ApiCallback) : ViewModel() {
     fun getMoviesPopular(): LiveData<MovieRespone> {
         return moviesCallback.getMoviesPopular(BuildConfig.API_KEY)
     }
@@ -21,6 +22,10 @@ class MoviesViewModel(val moviesCallback: ApiCallback) : ViewModel() {
 
     fun getMoviesIdDetail(id_movie : Int): LiveData<DetailRespone> {
         return moviesCallback.getMoviesIdDetail(id_movie,BuildConfig.API_KEY)
+    }
+
+    fun getMoviesIdReviewDetail(id_movie : Int): LiveData<DetailReviewRespone> {
+        return moviesCallback.getMoviesIdReviewDetail(id_movie,BuildConfig.API_KEY)
     }
 
 }

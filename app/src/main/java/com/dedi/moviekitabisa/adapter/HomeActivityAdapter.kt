@@ -18,7 +18,6 @@ import kotlinx.android.synthetic.main.item_content.view.*
 
 class HomeActivityAdapter : RecyclerView.Adapter<HomeActivityAdapter.MoviesViewHolder>() {
     private val mCourses = ArrayList<Movie>()
-    private var ImgPoster : ImageView? = null
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MoviesViewHolder {
         return MoviesViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_content, parent, false))
     }
@@ -38,7 +37,6 @@ class HomeActivityAdapter : RecyclerView.Adapter<HomeActivityAdapter.MoviesViewH
 
     inner class MoviesViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         fun bind(results: Movie) = itemView.run {
-            ImgPoster = itemView.findViewById(R.id.img_poster)
             txtTitle.text = results.original_title
             txtReleasedate.text = results.release_date
             println("deditian url image : ${results.poster_path}")

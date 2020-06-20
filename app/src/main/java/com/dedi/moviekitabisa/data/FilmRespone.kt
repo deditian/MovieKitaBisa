@@ -1,7 +1,11 @@
 package com.dedi.moviekitabisa.data
 
 
+import android.os.Parcelable
+import androidx.room.Entity
 import com.dedi.moviekitabisa.data.entity.Movie
+import com.dedi.moviekitabisa.data.entity.ResultReview
+import kotlinx.android.parcel.Parcelize
 
 data class MovieRespone( val results: List<Movie>)
 
@@ -21,3 +25,13 @@ data class DetailRespone(
     val video: Boolean,
     val vote_average: Float
 )
+
+data class DetailReviewRespone(
+    val id: Int,
+    val page: Int,
+    val results: List<ResultReview>,
+    val total_pages: Int,
+    val total_results: Int
+)
+
+
