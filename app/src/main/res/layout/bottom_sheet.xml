@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:id="@+id/bottom_sheet"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical"
+              app:behavior_peekHeight="56dp"
+              app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAllCaps="false"
+        android:background="#0E96F1"
+        android:text="@string/categori"
+        android:id="@+id/btnCategory"
+        android:textColor="@android:color/white"
+        />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAllCaps="false"
+        android:background="#FFFFFF"
+        android:paddingLeft="@dimen/padBottomshet"
+        android:gravity="left|center"
+        android:text="@string/popular"
+        android:id="@+id/btnPopular"
+            />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAllCaps="false"
+        android:paddingLeft="@dimen/padBottomshet"
+        android:gravity="left|center"
+        android:background="#FFFFFF"
+        android:text="Top Rated"
+        android:id="@+id/btnTopRated"
+        />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAllCaps="false"
+        android:paddingLeft="@dimen/padBottomshet"
+        android:gravity="left|center"
+        android:background="#FFFFFF"
+        android:text="Now Playing"
+        android:id="@+id/btnNowPlaying"
+        android:layout_marginBottom="10dp"
+        />
+
+</LinearLayout>
