@@ -90,11 +90,12 @@ class HomeActivity : AppCompatActivity() {
         viewModel.getMoviesTopRated().observe(this, Observer {data ->
             if (data != null){
                 txt_empty.visibility = View.GONE
+                homeActivityAdapter?.setListMovies(data.results)
+                homeActivityAdapter?.notifyDataSetChanged()
             }else{
                 txt_empty.visibility = View.VISIBLE
             }
-            homeActivityAdapter?.setListMovies(data.results)
-            homeActivityAdapter?.notifyDataSetChanged()
+
 
         })
     }
@@ -103,11 +104,12 @@ class HomeActivity : AppCompatActivity() {
         viewModel.getMoviesNowPlaying().observe(this, Observer {data ->
             if (data != null){
                 txt_empty.visibility = View.GONE
+                homeActivityAdapter?.setListMovies(data.results)
+                homeActivityAdapter?.notifyDataSetChanged()
             }else{
                 txt_empty.visibility = View.VISIBLE
             }
-            homeActivityAdapter?.setListMovies(data.results)
-            homeActivityAdapter?.notifyDataSetChanged()
+
 
         })
     }
@@ -116,11 +118,12 @@ class HomeActivity : AppCompatActivity() {
         viewModel.getMoviesPopular().observe(this, Observer {data ->
             if (data != null){
                 txt_empty.visibility = View.GONE
+                homeActivityAdapter?.setListMovies(data.results)
+                homeActivityAdapter?.notifyDataSetChanged()
             }else{
                 txt_empty.visibility = View.VISIBLE
             }
-            homeActivityAdapter?.setListMovies(data.results)
-            homeActivityAdapter?.notifyDataSetChanged()
+
 
         })
     }

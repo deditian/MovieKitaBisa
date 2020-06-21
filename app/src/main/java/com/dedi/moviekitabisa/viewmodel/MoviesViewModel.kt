@@ -20,12 +20,6 @@ class MoviesViewModel(private val moviesCallback: ApiCallback) : ViewModel() {
         return moviesCallback.getMoviesNowPlaying(BuildConfig.API_KEY)
     }
 
-    fun getMoviesIdDetail(id_movie : Int): LiveData<DetailRespone> {
-        return moviesCallback.getMoviesIdDetail(id_movie,BuildConfig.API_KEY)
-    }
 
-    fun getMoviesIdReviewDetail(id_movie : Int): LiveData<DetailReviewRespone> {
-        return moviesCallback.getMoviesIdReviewDetail(id_movie,BuildConfig.API_KEY)
-    }
 
 }

@@ -3,7 +3,6 @@ package com.dedi.moviekitabisa.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
 import androidx.recyclerview.widget.RecyclerView
 import com.dedi.moviekitabisa.R
 import com.dedi.moviekitabisa.data.entity.ResultReview
@@ -35,7 +34,6 @@ class DetailActivityAdapter : RecyclerView.Adapter<DetailActivityAdapter.ReviewV
             txtReviewAuthor.text = results.author
             txtReviewURL.text = results.url
             txtReviewContent.text = results.content
-
         }
     }
 

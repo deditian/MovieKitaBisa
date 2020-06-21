@@ -5,6 +5,7 @@ package com.dedi.moviekitabisa.api
 import com.dedi.moviekitabisa.data.DetailRespone
 import com.dedi.moviekitabisa.data.DetailReviewRespone
 import com.dedi.moviekitabisa.data.MovieRespone
+import com.dedi.moviekitabisa.data.entity.ResultReview
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -38,6 +39,12 @@ interface ApiService {
         @Path("movie_id") movie_id: Int,
         @Query("api_key") api_key: String
     ): Call<DetailReviewRespone>
+
+    @GET("movie/{movie_id}/reviews")
+    fun requestMovieIdReviewResultDetailApi(
+        @Path("movie_id") movie_id: Int,
+        @Query("api_key") api_key: String
+    ): Call<ResultReview>
 
 
 

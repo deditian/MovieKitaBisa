@@ -11,6 +11,8 @@ import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.dedi.moviekitabisa.R
+
+import com.dedi.moviekitabisa.data.DetailRespone
 import com.dedi.moviekitabisa.data.entity.Movie
 import com.dedi.moviekitabisa.ui.DetailActivity
 import com.dedi.moviekitabisa.utils.imageLoad
@@ -44,7 +46,10 @@ class HomeActivityAdapter : RecyclerView.Adapter<HomeActivityAdapter.MoviesViewH
             txtDesctription.text = results.overview
             cv_item_course.setOnClickListener {
                 val mIntent = Intent(context, DetailActivity::class.java).apply {
-                    putExtra("data_id", results.id)
+                    putExtra("data_id",
+                        DetailRespone(results.id,results.poster_path,results.adult,results.overview,
+                            results.release_date,results.title,results.original_title,results.original_language,results.backdrop_path,
+                            results.popularity,results.vote_count,results.video,results.vote_average))
                 }
                 context.startActivity(mIntent)
             }

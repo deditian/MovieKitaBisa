@@ -1,26 +1,34 @@
 package com.dedi.moviekitabisa.room
 
-import androidx.lifecycle.LiveData
 import androidx.paging.DataSource
 import androidx.room.*
-import com.dedi.moviekitabisa.data.entity.FavoriteModel
+import com.dedi.moviekitabisa.data.entity.FavoriteDetailModel
 
 
 @Dao
 interface FavDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(favModel: FavoriteModel)
+    fun insertDetail(favModel: FavoriteDetailModel)
 
-    @Query("SELECT * from favorite_table WHERE statusfav IN (:status) ORDER BY titlefav ASC")
-    fun getAllMovie(status: String): DataSource.Factory<Int, FavoriteModel>
+//    @Insert(onConflict = OnConflictStrategy.REPLACE)
+//    fun insertReview(favModel: FavoriteReviewModel)
+//
+//    @Insert(onConflict = OnConflictStrategy.REPLACE)
+//    fun insertReviewResult(favModel: FavoriteReviewModelResult)
 
-    @Query("SELECT * from favorite_table WHERE statusfav IN (:status) ORDER BY titlefav ASC")
-    fun getAllTvShow(status : String): DataSource.Factory<Int, FavoriteModel>
+    @Query("SELECT * from favorite_detail_table")
+    fun getAllFavoriteDetail(): DataSource.Factory<Int, FavoriteDetailModel>
 
-    @Query("SELECT * FROM favorite_table WHERE idfav IN (:id)")
-    fun getById(id: Int): DataSource.Factory<Int, FavoriteModel>
+    @Query("SELECT * from favorite_detail_table WHERE id IN (:id)")
+    fun getAllFavoriteDetailID(id : Int): DataSource.Factory<Int, FavoriteDetailModel>
 
+//    @Query("SELECT * from favorite_detail_table WHERE id IN (:status) ORDER BY id ASC")
+//    fun getAllTvShow(status : String): DataSource.Factory<Int, FavoriteDetailModel>
+//
+//    @Query("SELECT * FROM favorite_detail_table WHERE id IN (:id)")
+//    fun getById(id: Int): DataSource.Factory<Int, FavoriteDetailModel>
+//
     @Delete
-    fun delete(favModel: FavoriteModel)
+    fun deleteFavoriteDetail(favModel: FavoriteDetailModel)
 
 }

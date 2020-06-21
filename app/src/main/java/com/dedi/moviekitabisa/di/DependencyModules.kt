@@ -3,7 +3,11 @@ package com.dedi.moviekitabisa.di
 import androidx.room.Room
 import com.dedi.moviekitabisa.repository.ApiCallback
 import com.dedi.moviekitabisa.repository.ApiRepository
+import com.dedi.moviekitabisa.repository.LocalCallback
+import com.dedi.moviekitabisa.repository.LocalRepository
 import com.dedi.moviekitabisa.room.MyDatabase
+import com.dedi.moviekitabisa.viewmodel.DetailViewModel
+import com.dedi.moviekitabisa.viewmodel.FavoriteViewModel
 import com.dedi.moviekitabisa.viewmodel.MoviesViewModel
 
 import org.koin.android.ext.koin.androidApplication
@@ -14,17 +18,12 @@ object DependencyModules {
 
     val appModules = applicationContext {
 
-//        bean { LocalRepository(get()) as LocalCallback }
+        bean { LocalRepository(get()) as LocalCallback }
         bean { ApiRepository() as ApiCallback }
 
-//        factory { DetailViewModel(get()) }
-
+        factory { DetailViewModel(get(),get())}
         factory { MoviesViewModel(get()) }
-
-//        factory { TvShowViewModel(get()) }
-//
-//        factory { FavoriteMovieViewModel(get()) }
-//        factory { FavoriteTvShowViewModel(get()) }
+        factory { FavoriteViewModel(get()) }
 
         bean { get<MyDatabase>().favDao() }
 

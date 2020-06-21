@@ -8,6 +8,7 @@ import com.dedi.moviekitabisa.api.ApiService
 import com.dedi.moviekitabisa.data.DetailRespone
 import com.dedi.moviekitabisa.data.DetailReviewRespone
 import com.dedi.moviekitabisa.data.MovieRespone
+import com.dedi.moviekitabisa.data.entity.ResultReview
 
 
 import retrofit2.Call
@@ -113,6 +114,24 @@ class ApiRepository : ApiCallback {
             }
 
             override fun onFailure(call: Call<DetailReviewRespone>, t: Throwable) {
+                data.value=null
+                Log.i(TAG, "getMoviesIdReviewDetail null"+ t.printStackTrace())
+            }
+        })
+        return data
+    }
+
+    override fun getMoviesIdReviewResultDetail(id_detail: Int, uid: String): LiveData<ResultReview> {
+        val data = MutableLiveData<ResultReview>()
+        apiService?.requestMovieIdReviewResultDetailApi(id_detail,uid)?.enqueue(object : Callback<ResultReview> {
+            override fun onResponse(call: Call<ResultReview>, response: Response<ResultReview>) {
+                if (response.code() == 200 || response.isSuccessful) {
+                    data.value = response.body()
+                    Log.i(TAG, "code_responese ResultReview "+response.code())
+                }
+            }
+
+            override fun onFailure(call: Call<ResultReview>, t: Throwable) {
                 data.value=null
                 Log.i(TAG, "getMoviesIdReviewDetail null"+ t.printStackTrace())
             }
