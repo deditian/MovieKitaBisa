@@ -11,9 +11,11 @@ import kotlinx.android.synthetic.main.item_content_review.view.*
 
 class DetailActivityAdapter : RecyclerView.Adapter<DetailActivityAdapter.ReviewViewHolder>() {
     private val mCourses = ArrayList<ResultReview>()
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ReviewViewHolder {
-        return ReviewViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_content_review, parent, false))
-    }
+
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ReviewViewHolder = ReviewViewHolder(
+        LayoutInflater.from(parent.context).inflate(R.layout.item_content_review, parent,false)
+    )
 
     override fun getItemCount(): Int {
         return mCourses.size
@@ -30,11 +32,9 @@ class DetailActivityAdapter : RecyclerView.Adapter<DetailActivityAdapter.ReviewV
 
     inner class ReviewViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         fun bind(results: ResultReview) = itemView.run {
-            println("deditian ReviewViewHolder author : ${results.author}")
             txtReviewAuthor.text = results.author
             txtReviewURL.text = results.url
             txtReviewContent.text = results.content
         }
     }
-
 }

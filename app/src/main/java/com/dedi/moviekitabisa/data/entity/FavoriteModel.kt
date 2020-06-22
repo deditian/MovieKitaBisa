@@ -1,6 +1,7 @@
 package com.dedi.moviekitabisa.data.entity
 
 import android.os.Parcelable
+import androidx.annotation.NonNull
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
@@ -24,20 +25,3 @@ data class FavoriteDetailModel(
     @field:SerializedName("video") val video: Boolean,
     @field:SerializedName("vote_average") val vote_average: Float
 ):Parcelable
-
-
-
-data class FavoriteReviewModel(
-    @PrimaryKey  @field:SerializedName("id") val id: Int,
-    @field:SerializedName("page") val page: Int,
-    @field:SerializedName("total_pages") val total_pages: Int,
-    @field:SerializedName("total_results") val total_results: Int
-)
-
-
-data class FavoriteReviewModelResult(
-    @PrimaryKey  @field:SerializedName("id") val id: String,
-    @field:SerializedName("author") val author: String,
-    @field:SerializedName("content") val content: String,
-    @field:SerializedName("url") val url: String
-)

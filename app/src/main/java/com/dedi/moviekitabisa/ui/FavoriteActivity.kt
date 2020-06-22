@@ -30,7 +30,6 @@ class FavoriteActivity : AppCompatActivity() {
 
     private fun observeViewModelFavoriteDetail() {
         viewModel.getAllFavoriteDetail().observe(this, Observer {data ->
-            println("deditian observeViewModelFavoriteDetail $data")
             if (data != null){
                 txt_empty_favorite.visibility = View.GONE
                 favoriteActivityAdapter?.submitList(data)

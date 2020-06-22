@@ -12,7 +12,6 @@ import com.dedi.moviekitabisa.R
 import com.dedi.moviekitabisa.adapter.DetailActivityAdapter
 import com.dedi.moviekitabisa.data.DetailRespone
 import com.dedi.moviekitabisa.data.entity.FavoriteDetailModel
-import com.dedi.moviekitabisa.data.entity.FavoriteReviewModel
 
 import com.dedi.moviekitabisa.data.entity.ResultReview
 import com.dedi.moviekitabisa.utils.imageLoad
@@ -29,7 +28,8 @@ import org.koin.android.ext.android.inject
 
 class DetailActivity : AppCompatActivity() {
 
-    private val mCourses = ArrayList<ResultReview>()
+    private var favoriteReviewModel = ArrayList<ResultReview>()
+    private var detailModel = ArrayList<DetailRespone>()
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<LinearLayout>
     var detailActivityAdapter: DetailActivityAdapter? = null
     private var pilih : Boolean = false
@@ -42,7 +42,6 @@ class DetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
-        println("deditian Detail  id_data : ${id_data.id}")
         bottomSheetDetail()
 
         setFavorite(pilih)
@@ -52,13 +51,11 @@ class DetailActivity : AppCompatActivity() {
         rv_history_review?.adapter = detailActivityAdapter
         observeViewModelReviewerAndDetail(id_data.id)
         viewModel.getAllFavoriteDetailID(id_data.id).observe(this, Observer {data ->
-            println("deditian getAllFavoriteDetailID DetailActivity $data")
             pilih = if (data.isNotEmpty()) {
-                println("deditian getAllFavoriteDetailID DetailActivity $data pilih : $pilih")
+
                 setFavorite(true)
                 false
             }else{
-                println("deditian getAllFavoriteDetailID DetailActivity $data pilih else : $pilih")
                 setFavorite(false)
                 true
             }
@@ -80,6 +77,7 @@ class DetailActivity : AppCompatActivity() {
 
     private fun actionClick() {
         if (pilih){
+            viewModel.insertReview(favoriteReviewModel,id_data.id)
             viewModel.insertDetail(
                 FavoriteDetailModel(
                     id_data.id,id_data.poster_path,id_data.adult,id_data.overview,
@@ -89,6 +87,8 @@ class DetailActivity : AppCompatActivity() {
             pilih = false
             Toasty.success(this, "Save", Toasty.LENGTH_SHORT).show()
         }else{
+
+            viewModel.deleteReview(favoriteReviewModel)
             viewModel.deleteFavoriteDetail(
                 FavoriteDetailModel(
                     id_data.id,id_data.poster_path,id_data.adult,id_data.overview,
@@ -102,55 +102,26 @@ class DetailActivity : AppCompatActivity() {
 
 
     private fun observeViewModelReviewerAndDetail(id_data: Int) {
-        viewModel.getMoviesIdDetail(id_data).observe(this, Observer {data ->
-//            if (data.id != null) {
-//                setFavorite(true)
-//                pilih =false
-//            }else{
-//                setFavorite(false)
-//                pilih = true
-//            }
-//            if (data != null){
-//                viewModel.insertDetail(
-//                    FavoriteDetailModel(
-//                        data.id,data.poster_path,data.adult,data.overview,
-//                        data.release_date,data.title,data.original_title,data.original_language,data.backdrop_path,
-//                        data.popularity,data.vote_count,data.video,data.vote_average))
-//                imgdetailPoster.imageLoad(data.poster_path)
-//                txtdetailTitle.text = data.title
-//                txtdetailOverview.text = data.overview
-//                txtdetailReleaseDate.text = data.release_date
-//            }
-//            else{
-//                viewModel.getAllFavoriteDetailID(id_data).observe(this, Observer {dataFavorite ->
-//                    println("deditian observeViewModelFavoriteDetail $dataFavorite")
-//                    imgdetailPoster.imageLoad(dataFavorite[0]?.poster_path.toString())
-//                    txtdetailTitle.text = dataFavorite[0]?.title
-//                    txtdetailOverview.text = dataFavorite[0]?.overview
-//                    txtdetailReleaseDate.text = dataFavorite[0]?.release_date
-//
-//
-//
-//                })
-//            }
-        })
 
         println("deditian observeViewModelReviewer $id_data")
         viewModel.getMoviesIdReviewDetail(id_data).observe(this, Observer {data ->
             if (data != null){
                 txtReviewer.text = "Jumlah Reviewer : "+data.total_results.toString()
+
+                favoriteReviewModel.addAll(data.results)
                 detailActivityAdapter?.setListMovies(data.results)
                 detailActivityAdapter?.notifyDataSetChanged()
             }else{
-//                viewModel.insertReview(FavoriteReviewModel(data.id,data.page,data.total_pages,data.total_results))
+                viewModel.getReview(id_data).observe(this, Observer {data ->
+                    if (data != null){
+                        txtReviewer.text = "Jumlah Reviewer : "+data.size
+                        detailActivityAdapter?.setListMovies(data)
+                        detailActivityAdapter?.notifyDataSetChanged()
+                    }
+
+                })
             }
 
-        })
-
-        viewModel.getMoviesIdReviewResultDetail(id_data).observe(this, Observer {data ->
-            if (data != null){
-//                viewModel.insertReviewResult(FavoriteReviewModelResult(data.id,data.author,data.content,data.url))
-            }
         })
 
     }
@@ -172,7 +143,7 @@ class DetailActivity : AppCompatActivity() {
             override fun onStateChanged(bottomSheet: View, newState: Int) {
                 when (newState) {
                     BottomSheetBehavior.STATE_HIDDEN -> {
-//                        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED)
+                        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED)
                     }
                     BottomSheetBehavior.STATE_EXPANDED -> {
                     }

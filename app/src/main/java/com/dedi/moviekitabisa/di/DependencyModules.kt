@@ -18,7 +18,7 @@ object DependencyModules {
 
     val appModules = applicationContext {
 
-        bean { LocalRepository(get()) as LocalCallback }
+        bean { LocalRepository(get(),get()) as LocalCallback }
         bean { ApiRepository() as ApiCallback }
 
         factory { DetailViewModel(get(),get())}
@@ -26,6 +26,7 @@ object DependencyModules {
         factory { FavoriteViewModel(get()) }
 
         bean { get<MyDatabase>().favDao() }
+        bean { get<MyDatabase>().reviewDao() }
 
         bean {
             Room.databaseBuilder(androidApplication(), MyDatabase::class.java, "Favorites-db").allowMainThreadQueries()

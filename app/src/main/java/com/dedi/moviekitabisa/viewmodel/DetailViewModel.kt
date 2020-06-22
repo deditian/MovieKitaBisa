@@ -7,23 +7,19 @@ import androidx.paging.PagedList
 import com.dedi.moviekitabisa.BuildConfig
 import com.dedi.moviekitabisa.data.DetailRespone
 import com.dedi.moviekitabisa.data.DetailReviewRespone
-import com.dedi.moviekitabisa.data.entity.*
+import com.dedi.moviekitabisa.data.entity.FavoriteDetailModel
+
+import com.dedi.moviekitabisa.data.entity.ResultReview
 import com.dedi.moviekitabisa.repository.ApiCallback
 import com.dedi.moviekitabisa.repository.LocalCallback
+import timber.log.Timber
 
 class DetailViewModel(private val moviesCallback: ApiCallback, private val localCallback: LocalCallback) : ViewModel() {
-    fun getMoviesIdDetail(id_movie : Int): LiveData<DetailRespone> {
-        return moviesCallback.getMoviesIdDetail(id_movie, BuildConfig.API_KEY)
-    }
+
 
     fun getMoviesIdReviewDetail(id_movie : Int): LiveData<DetailReviewRespone> {
         return moviesCallback.getMoviesIdReviewDetail(id_movie, BuildConfig.API_KEY)
     }
-
-    fun getMoviesIdReviewResultDetail(id_movie : Int): LiveData<ResultReview> {
-        return moviesCallback.getMoviesIdReviewResultDetail(id_movie, BuildConfig.API_KEY)
-    }
-
 
     fun getAllFavoriteDetailID(int: Int): LiveData<PagedList<FavoriteDetailModel>> {
         println("deditian FavoriteViewModel getAllFavoriteDetailID $int ")
@@ -44,16 +40,24 @@ class DetailViewModel(private val moviesCallback: ApiCallback, private val local
         localCallback.deleteFavoriteDetail(favModel)
     }
 
+    fun getReview(id :Int): LiveData<PagedList<ResultReview>> {
+        val pagedListConfig = PagedList.Config.Builder()
+            .setEnablePlaceholders(false)
+            .setPageSize(20).build()
 
+        return LivePagedListBuilder(localCallback.getReview(id), pagedListConfig).build()
+    }
 
-//    fun insertReview(favModel: FavoriteReviewModel) {
-//        localCallback.insertReview(favModel)
-//    }
-//
-//    fun insertReviewResult(favModel: FavoriteReviewModelResult) {
-//        localCallback.insertReviewResult(favModel)
-//    }
+    fun insertReview(reviews: ArrayList<ResultReview>, movieId: Int) {
+        for (review in reviews!!) {
+            review.movieId = movieId
+        }
+        localCallback.insertReview(reviews)
+    }
 
+    fun deleteReview(reviews: ArrayList<ResultReview>) {
+        localCallback.deleteReview(reviews)
+    }
 
 
 }
