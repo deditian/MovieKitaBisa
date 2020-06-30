@@ -10,13 +10,18 @@ import android.view.View
 import android.widget.LinearLayout
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.dedi.moviekitabisa.BuildConfig
 import com.dedi.moviekitabisa.R
 import com.dedi.moviekitabisa.adapter.HomeActivityAdapter
+import com.dedi.moviekitabisa.api.ApiService
+import com.dedi.moviekitabisa.data.entity.Movie
 import com.dedi.moviekitabisa.viewmodel.MoviesViewModel
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import es.dmoral.toasty.Toasty
 import kotlinx.android.synthetic.main.bottom_sheet.*
 import kotlinx.android.synthetic.main.content_main.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 
 
@@ -24,6 +29,7 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<LinearLayout>
     private var homeActivityAdapter: HomeActivityAdapter? = null
     private val viewModel:MoviesViewModel by inject()
+//    val apiService: ApiService? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -114,18 +120,20 @@ class HomeActivity : AppCompatActivity() {
         })
     }
 
-    private fun observeViewModelPopular() {
-        viewModel.getMoviesPopular().observe(this, Observer {data ->
-            if (data != null){
-                txt_empty.visibility = View.GONE
-                homeActivityAdapter?.setListMovies(data.results)
-                homeActivityAdapter?.notifyDataSetChanged()
-            }else{
-                txt_empty.visibility = View.VISIBLE
-            }
 
+    private  fun observeViewModelPopular() {
+            viewModel.getMoviesPopular().observe(this@HomeActivity, Observer { data ->
+                println("deditian dataHME getMoviesPopular ${data}")
+                if (data != null) {
+                    txt_empty.visibility = View.GONE
+                    homeActivityAdapter?.setListMovies(data.results)
+                    homeActivityAdapter?.notifyDataSetChanged()
+                } else {
+                    txt_empty.visibility = View.VISIBLE
+                }
 
-        })
+            })
+
     }
 
 

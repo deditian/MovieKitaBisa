@@ -12,7 +12,7 @@ import com.dedi.moviekitabisa.data.entity.FavoriteDetailModel
 import com.dedi.moviekitabisa.data.entity.ResultReview
 import com.dedi.moviekitabisa.repository.ApiCallback
 import com.dedi.moviekitabisa.repository.LocalCallback
-import timber.log.Timber
+
 
 class DetailViewModel(private val moviesCallback: ApiCallback, private val localCallback: LocalCallback) : ViewModel() {
 

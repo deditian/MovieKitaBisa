@@ -8,7 +8,14 @@ import com.dedi.moviekitabisa.api.ApiService
 import com.dedi.moviekitabisa.data.DetailRespone
 import com.dedi.moviekitabisa.data.DetailReviewRespone
 import com.dedi.moviekitabisa.data.MovieRespone
+import com.dedi.moviekitabisa.data.entity.Movie
 import com.dedi.moviekitabisa.data.entity.ResultReview
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 
 
 import retrofit2.Call
@@ -16,42 +23,43 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import kotlin.collections.isNotEmpty as isNotEmpty
 
 class ApiRepository : ApiCallback {
     val TAG = "ApiRepository"
     private val HTTP_API_SETUP_WIZART_URL = BuildConfig.API_URL
-    private var apiService: ApiService? = null
+    private var apiService: ApiService
 
     init {
+        val logging = HttpLoggingInterceptor()
+        logging.level = HttpLoggingInterceptor.Level.BODY
+
+        val client = OkHttpClient.Builder()
+            .addInterceptor(logging)
+            .build()
+
         val retrofit = Retrofit.Builder()
             .baseUrl(HTTP_API_SETUP_WIZART_URL)
             .addConverterFactory(GsonConverterFactory.create())
+            .client(client)
             .build()
 
         apiService = retrofit.create(ApiService::class.java)
     }
 
-    override fun getMoviesPopular(uid: String): LiveData<MovieRespone> {
+    override suspend fun getMoviesPopular(uid: String): LiveData<MovieRespone> {
         val data = MutableLiveData<MovieRespone>()
-        apiService?.requestMoviePopularApi(uid)?.enqueue(object : Callback<MovieRespone> {
-            override fun onResponse(call: Call<MovieRespone>, response: Response<MovieRespone>) {
-                if (response.code() == 200 || response.isSuccessful) {
-                    data.value = response.body()
-                    Log.i(TAG, "code_responese"+response.code())
+                try {
+                    data.value = apiService.requestMoviePopularApi(uid)
+                } catch (e: Throwable) {
+                    println("deditian errror repo ${e.printStackTrace()}")
                 }
-            }
-
-            override fun onFailure(call: Call<MovieRespone>, t: Throwable) {
-                data.value=null
-                Log.i(TAG, "code_responese null"+ t.printStackTrace())
-            }
-        })
         return data
     }
 
     override fun getMoviesTopRated(uid: String): LiveData<MovieRespone> {
         val data = MutableLiveData<MovieRespone>()
-        apiService?.requestMovieTopRateApi(uid)?.enqueue(object : Callback<MovieRespone> {
+        apiService.requestMovieTopRateApi(uid).enqueue(object : Callback<MovieRespone> {
             override fun onResponse(call: Call<MovieRespone>, response: Response<MovieRespone>) {
                 if (response.code() == 200 || response.isSuccessful) {
                     data.value = response.body()
@@ -69,7 +77,7 @@ class ApiRepository : ApiCallback {
 
     override fun getMoviesNowPlaying(uid: String): LiveData<MovieRespone> {
         val data = MutableLiveData<MovieRespone>()
-        apiService?.requestMovieNowPlayingApi(uid)?.enqueue(object : Callback<MovieRespone> {
+        apiService.requestMovieNowPlayingApi(uid).enqueue(object : Callback<MovieRespone> {
             override fun onResponse(call: Call<MovieRespone>, response: Response<MovieRespone>) {
                 if (response.code() == 200 || response.isSuccessful) {
                     data.value = response.body()
@@ -87,7 +95,7 @@ class ApiRepository : ApiCallback {
 
     override fun getMoviesIdDetail(id_detail: Int,uid: String): LiveData<DetailRespone> {
         val data = MutableLiveData<DetailRespone>()
-        apiService?.requestMovieIdDetailApi(id_detail,uid)?.enqueue(object : Callback<DetailRespone> {
+        apiService.requestMovieIdDetailApi(id_detail,uid).enqueue(object : Callback<DetailRespone> {
             override fun onResponse(call: Call<DetailRespone>, response: Response<DetailRespone>) {
                 if (response.code() == 200 || response.isSuccessful) {
                     data.value = response.body()
@@ -105,7 +113,7 @@ class ApiRepository : ApiCallback {
 
     override fun getMoviesIdReviewDetail(id_detail: Int, uid: String): LiveData<DetailReviewRespone> {
         val data = MutableLiveData<DetailReviewRespone>()
-        apiService?.requestMovieIdReviewDetailApi(id_detail,uid)?.enqueue(object : Callback<DetailReviewRespone> {
+        apiService.requestMovieIdReviewDetailApi(id_detail,uid).enqueue(object : Callback<DetailReviewRespone> {
             override fun onResponse(call: Call<DetailReviewRespone>, response: Response<DetailReviewRespone>) {
                 if (response.code() == 200 || response.isSuccessful) {
                     data.value = response.body()
@@ -123,7 +131,7 @@ class ApiRepository : ApiCallback {
 
     override fun getMoviesIdReviewResultDetail(id_detail: Int, uid: String): LiveData<ResultReview> {
         val data = MutableLiveData<ResultReview>()
-        apiService?.requestMovieIdReviewResultDetailApi(id_detail,uid)?.enqueue(object : Callback<ResultReview> {
+        apiService.requestMovieIdReviewResultDetailApi(id_detail,uid).enqueue(object : Callback<ResultReview> {
             override fun onResponse(call: Call<ResultReview>, response: Response<ResultReview>) {
                 if (response.code() == 200 || response.isSuccessful) {
                     data.value = response.body()

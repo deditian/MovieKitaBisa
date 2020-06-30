@@ -2,6 +2,7 @@ package com.dedi.moviekitabisa.api
 
 
 
+import com.dedi.moviekitabisa.BuildConfig
 import com.dedi.moviekitabisa.data.DetailRespone
 import com.dedi.moviekitabisa.data.DetailReviewRespone
 import com.dedi.moviekitabisa.data.MovieRespone
@@ -14,9 +15,9 @@ import retrofit2.http.Query
 interface ApiService {
 
     @GET("movie/popular")
-    fun requestMoviePopularApi(
-        @Query("api_key") api_key: String
-    ): Call<MovieRespone>
+    suspend fun requestMoviePopularApi(
+        @Query("api_key") api_key: String = BuildConfig.API_KEY
+    ): MovieRespone
 
     @GET("movie/top_rated")
     fun requestMovieTopRateApi(
