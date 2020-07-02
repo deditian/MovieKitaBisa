@@ -97,6 +97,7 @@ class DetailActivity : AppCompatActivity() {
             setFavorite(false)
             pilih = true
             Toasty.success(this, "Delete", Toasty.LENGTH_SHORT).show()
+            finish()
         }
     }
 

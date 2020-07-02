@@ -101,4 +101,5 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-contrib:3.0.2'
 
     implementation 'com.github.GrenderG:Toasty:1.4.2'
+    implementation 'com.baoyz.pullrefreshlayout:library:1.2.0'
 }
