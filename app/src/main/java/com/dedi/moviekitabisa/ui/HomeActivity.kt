@@ -2,26 +2,22 @@ package com.dedi.moviekitabisa.ui
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.LinearLayout
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.dedi.moviekitabisa.BuildConfig
 import com.dedi.moviekitabisa.R
 import com.dedi.moviekitabisa.adapter.HomeActivityAdapter
-import com.dedi.moviekitabisa.api.ApiService
-import com.dedi.moviekitabisa.data.entity.Movie
 import com.dedi.moviekitabisa.viewmodel.MoviesViewModel
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import es.dmoral.toasty.Toasty
 import kotlinx.android.synthetic.main.bottom_sheet.*
 import kotlinx.android.synthetic.main.content_main.*
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 
 
@@ -29,6 +25,7 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<LinearLayout>
     private var homeActivityAdapter: HomeActivityAdapter? = null
     private val viewModel:MoviesViewModel by inject()
+    var swipe = 0
 //    val apiService: ApiService? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,6 +36,22 @@ class HomeActivity : AppCompatActivity() {
         rv_history?.setHasFixedSize(true)
         rv_history?.adapter = homeActivityAdapter
         observeViewModelPopular()
+
+        swiperefresh.setOnRefreshListener {
+            println("deditian swipe $swipe")
+            if (swipe == 0){
+                observeViewModelPopular()
+            }else if (swipe == 1){
+                observeViewModelTopRated()
+            }else{
+                observeViewModelNowPlaying()
+            }
+            swiperefresh.isRefreshing = false
+            Toasty.success(this,"Reflesh", Toasty.LENGTH_SHORT).show()
+
+        }
+
+        swiperefresh.setColorSchemeResources(R.color.colorAccent,R.color.colorPrimary,R.color.colorPrimaryDark)
     }
 
     private fun bottomSheet(){
@@ -48,17 +61,17 @@ class HomeActivity : AppCompatActivity() {
                 bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
                 btnPopular.setOnClickListener {
                     observeViewModelPopular()
-                    Toasty.success(this,"Popular", Toasty.LENGTH_LONG).show()
+                    Toasty.success(this,"Popular", Toasty.LENGTH_SHORT).show()
                 }
 
                 btnNowPlaying.setOnClickListener {
                     observeViewModelNowPlaying()
-                    Toasty.success(this,"Now Playing", Toasty.LENGTH_LONG).show()
+                    Toasty.success(this,"Now Playing", Toasty.LENGTH_SHORT).show()
                 }
 
                 btnTopRated.setOnClickListener {
                     observeViewModelTopRated()
-                    Toasty.success(this,"Top Rated", Toasty.LENGTH_LONG).show()
+                    Toasty.success(this,"Top Rated", Toasty.LENGTH_SHORT).show()
                 }
 
 
@@ -93,6 +106,7 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun observeViewModelTopRated() {
+        swipe = 1
         viewModel.getMoviesTopRated().observe(this, Observer {data ->
             if (data != null){
                 txt_empty.visibility = View.GONE
@@ -107,6 +121,7 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun observeViewModelNowPlaying() {
+        swipe = 2
         viewModel.getMoviesNowPlaying().observe(this, Observer {data ->
             if (data != null){
                 txt_empty.visibility = View.GONE
@@ -122,6 +137,7 @@ class HomeActivity : AppCompatActivity() {
 
 
     private  fun observeViewModelPopular() {
+        swipe = 0
             viewModel.getMoviesPopular().observe(this@HomeActivity, Observer { data ->
                 println("deditian dataHME getMoviesPopular ${data}")
                 if (data != null) {
