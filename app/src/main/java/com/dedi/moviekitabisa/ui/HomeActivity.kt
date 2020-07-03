@@ -19,6 +19,7 @@ import es.dmoral.toasty.Toasty
 import kotlinx.android.synthetic.main.bottom_sheet.*
 import kotlinx.android.synthetic.main.content_main.*
 import org.koin.android.ext.android.inject
+import uz.jamshid.library.progress_bar.LineProgressBar
 
 
 class HomeActivity : AppCompatActivity() {
@@ -26,7 +27,7 @@ class HomeActivity : AppCompatActivity() {
     private var homeActivityAdapter: HomeActivityAdapter? = null
     private val viewModel:MoviesViewModel by inject()
     var swipe = 0
-//    val apiService: ApiService? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -37,21 +38,24 @@ class HomeActivity : AppCompatActivity() {
         rv_history?.adapter = homeActivityAdapter
         observeViewModelPopular()
 
-        swiperefresh.setOnRefreshListener {
-            println("deditian swipe $swipe")
-            if (swipe == 0){
-                observeViewModelPopular()
-            }else if (swipe == 1){
-                observeViewModelTopRated()
-            }else{
-                observeViewModelNowPlaying()
-            }
-            swiperefresh.isRefreshing = false
-            Toasty.success(this,"Reflesh", Toasty.LENGTH_SHORT).show()
-
+    refreshLayout.setRefreshListener{
+        if (swipe == 0){
+            observeViewModelPopular()
+        }else if (swipe == 1){
+            observeViewModelTopRated()
+        }else{
+            observeViewModelNowPlaying()
         }
 
-        swiperefresh.setColorSchemeResources(R.color.colorAccent,R.color.colorPrimary,R.color.colorPrimaryDark)
+        refreshLayout.setRefreshing(false)
+        Toasty.success(this,"Refresh", Toasty.LENGTH_SHORT).show()
+    }
+
+        refreshLayout.setCustomBar(LineProgressBar(this))
+
+
+
+
     }
 
     private fun bottomSheet(){

@@ -9,7 +9,6 @@
         tools:showIn="@layout/activity_main">
 
     <TextView
-
             android:text="Data tidak Ada"
             android:textSize="20dp"
             android:layout_width="wrap_content"
@@ -18,10 +17,13 @@
             android:layout_marginEnd="8dp" android:layout_marginTop="8dp" app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"/>
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/swiperefresh"
+    <uz.jamshid.library.IGRefreshLayout
+        android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:offsetTop="60"
+        app:customBar="true"
+        tools:context=".MainActivity">
 
 
     <androidx.recyclerview.widget.RecyclerView
@@ -41,6 +43,6 @@
     >
     </androidx.recyclerview.widget.RecyclerView>
 
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    </uz.jamshid.library.IGRefreshLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
