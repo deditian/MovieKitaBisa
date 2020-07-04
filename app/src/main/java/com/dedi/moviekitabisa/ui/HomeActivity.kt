@@ -114,8 +114,8 @@ class HomeActivity : AppCompatActivity() {
         viewModel.getMoviesTopRated().observe(this, Observer {data ->
             if (data != null){
                 txt_empty.visibility = View.GONE
-                homeActivityAdapter?.setListMovies(data.results)
-                homeActivityAdapter?.notifyDataSetChanged()
+//                homeActivityAdapter?.setListMovies(data.results)
+//                homeActivityAdapter?.notifyDataSetChanged()
             }else{
                 txt_empty.visibility = View.VISIBLE
             }
@@ -126,11 +126,12 @@ class HomeActivity : AppCompatActivity() {
 
     private fun observeViewModelNowPlaying() {
         swipe = 2
-        viewModel.getMoviesNowPlaying().observe(this, Observer {data ->
+        viewModel.getNowPlaying().observe(this, Observer {data ->
             if (data != null){
                 txt_empty.visibility = View.GONE
-                homeActivityAdapter?.setListMovies(data.results)
-                homeActivityAdapter?.notifyDataSetChanged()
+                homeActivityAdapter?.submitList(data)
+//                homeActivityAdapter?.setListMovies(data.results)
+//                homeActivityAdapter?.notifyDataSetChanged()
             }else{
                 txt_empty.visibility = View.VISIBLE
             }
@@ -142,12 +143,13 @@ class HomeActivity : AppCompatActivity() {
 
     private  fun observeViewModelPopular() {
         swipe = 0
-            viewModel.getMoviesPopular().observe(this@HomeActivity, Observer { data ->
-                println("deditian dataHME getMoviesPopular ${data}")
+            viewModel.getPopular().observe(this, Observer { data ->
+                println("deditian dataHME getMoviesPopular ${data.size}")
                 if (data != null) {
                     txt_empty.visibility = View.GONE
-                    homeActivityAdapter?.setListMovies(data.results)
-                    homeActivityAdapter?.notifyDataSetChanged()
+                    homeActivityAdapter?.submitList(data)
+//                    homeActivityAdapter?.setListMovies(data)
+//                    homeActivityAdapter?.notifyDataSetChanged()
                 } else {
                     txt_empty.visibility = View.VISIBLE
                 }

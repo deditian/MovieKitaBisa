@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.dedi.moviekitabisa.BuildConfig
+import com.dedi.moviekitabisa.api.ApiClient
 import com.dedi.moviekitabisa.api.ApiService
 import com.dedi.moviekitabisa.data.DetailRespone
 import com.dedi.moviekitabisa.data.DetailReviewRespone
@@ -27,35 +28,34 @@ import kotlin.collections.isNotEmpty as isNotEmpty
 
 class ApiRepository : ApiCallback {
     val TAG = "ApiRepository"
-    private val HTTP_API_SETUP_WIZART_URL = BuildConfig.API_URL
-    private var apiService: ApiService
+    private var apiService: ApiService = ApiClient.getClient().create(ApiService::class.java)
 
-    init {
-        val logging = HttpLoggingInterceptor()
-        logging.level = HttpLoggingInterceptor.Level.BODY
+//    init {
+//        val logging = HttpLoggingInterceptor()
+//        logging.level = HttpLoggingInterceptor.Level.BODY
+//
+//        val client = OkHttpClient.Builder()
+//            .addInterceptor(logging)
+//            .build()
+//
+//        val retrofit = Retrofit.Builder()
+//            .baseUrl(HTTP_API_SETUP_WIZART_URL)
+//            .addConverterFactory(GsonConverterFactory.create())
+//            .client(client)
+//            .build()
+//
+//        apiService = retrofit.create(ApiService::class.java)
+//    }
 
-        val client = OkHttpClient.Builder()
-            .addInterceptor(logging)
-            .build()
-
-        val retrofit = Retrofit.Builder()
-            .baseUrl(HTTP_API_SETUP_WIZART_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .client(client)
-            .build()
-
-        apiService = retrofit.create(ApiService::class.java)
-    }
-
-    override suspend fun getMoviesPopular(uid: String): LiveData<MovieRespone> {
-        val data = MutableLiveData<MovieRespone>()
-                try {
-                    data.value = apiService.requestMoviePopularApi(uid)
-                } catch (e: Throwable) {
-                    println("deditian errror repo ${e.printStackTrace()}")
-                }
-        return data
-    }
+//    override suspend fun getMoviesPopular(uid: String): LiveData<MovieRespone> {
+//        val data = MutableLiveData<MovieRespone>()
+//                try {
+//                    data.value = apiService.requestMoviePopularApi(1,BuildConfig.API_KEY)
+//                } catch (e: Throwable) {
+//                    println("deditian errror repo ${e.printStackTrace()}")
+//                }
+//        return data
+//    }
 
     override fun getMoviesTopRated(uid: String): LiveData<MovieRespone> {
         val data = MutableLiveData<MovieRespone>()
@@ -77,19 +77,19 @@ class ApiRepository : ApiCallback {
 
     override fun getMoviesNowPlaying(uid: String): LiveData<MovieRespone> {
         val data = MutableLiveData<MovieRespone>()
-        apiService.requestMovieNowPlayingApi(uid).enqueue(object : Callback<MovieRespone> {
-            override fun onResponse(call: Call<MovieRespone>, response: Response<MovieRespone>) {
-                if (response.code() == 200 || response.isSuccessful) {
-                    data.value = response.body()
-                    Log.i(TAG, "code_responese"+response.code())
-                }
-            }
-
-            override fun onFailure(call: Call<MovieRespone>, t: Throwable) {
-                data.value=null
-                Log.i(TAG, "code_responese null"+ t.printStackTrace())
-            }
-        })
+//        apiService.requestMovieNowPlayingApi(uid).enqueue(object : Callback<MovieRespone> {
+//            override fun onResponse(call: Call<MovieRespone>, response: Response<MovieRespone>) {
+//                if (response.code() == 200 || response.isSuccessful) {
+//                    data.value = response.body()
+//                    Log.i(TAG, "code_responese"+response.code())
+//                }
+//            }
+//
+//            override fun onFailure(call: Call<MovieRespone>, t: Throwable) {
+//                data.value=null
+//                Log.i(TAG, "code_responese null"+ t.printStackTrace())
+//            }
+//        })
         return data
     }
 

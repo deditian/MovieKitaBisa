@@ -8,6 +8,7 @@ import com.dedi.moviekitabisa.data.DetailReviewRespone
 import com.dedi.moviekitabisa.data.MovieRespone
 import com.dedi.moviekitabisa.data.entity.ResultReview
 import retrofit2.Call
+import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -16,8 +17,9 @@ interface ApiService {
 
     @GET("movie/popular")
     suspend fun requestMoviePopularApi(
+        @Query("page") page: Int,
         @Query("api_key") api_key: String = BuildConfig.API_KEY
-    ): MovieRespone
+    ): Response<MovieRespone>
 
     @GET("movie/top_rated")
     fun requestMovieTopRateApi(
@@ -25,9 +27,10 @@ interface ApiService {
     ): Call<MovieRespone>
 
     @GET("movie/now_playing")
-    fun requestMovieNowPlayingApi(
-        @Query("api_key") api_key: String
-    ): Call<MovieRespone>
+    suspend fun requestMovieNowPlayingApi(
+        @Query("page") page: Int,
+        @Query("api_key") api_key: String = BuildConfig.API_KEY
+    ): Response<MovieRespone>
 
     @GET("movie/{movie_id}")
     fun requestMovieIdDetailApi(

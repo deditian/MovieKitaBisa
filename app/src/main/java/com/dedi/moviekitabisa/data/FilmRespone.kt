@@ -6,7 +6,7 @@ import com.dedi.moviekitabisa.data.entity.ResultReview
 import kotlinx.android.parcel.Parcelize
 
 
-data class MovieRespone( val results: List<Movie>)
+data class MovieRespone( val page: Int ,val results: List<Movie>, val total_results: Int, val total_pages: Int)
 
 @Parcelize
 open class DetailRespone(

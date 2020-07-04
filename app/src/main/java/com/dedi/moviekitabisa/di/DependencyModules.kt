@@ -1,6 +1,7 @@
 package com.dedi.moviekitabisa.di
 
 import androidx.room.Room
+import com.dedi.moviekitabisa.datasource.PopularDataSource
 import com.dedi.moviekitabisa.repository.ApiCallback
 import com.dedi.moviekitabisa.repository.ApiRepository
 import com.dedi.moviekitabisa.repository.LocalCallback
@@ -20,6 +21,7 @@ object DependencyModules {
 
         bean { LocalRepository(get(),get()) as LocalCallback }
         bean { ApiRepository() as ApiCallback }
+//        bean { PopularDataSource(get())}
 
         factory { DetailViewModel(get(),get())}
         factory { MoviesViewModel(get()) }

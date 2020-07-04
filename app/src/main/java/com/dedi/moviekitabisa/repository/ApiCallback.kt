@@ -8,7 +8,7 @@ import com.dedi.moviekitabisa.data.entity.Movie
 import com.dedi.moviekitabisa.data.entity.ResultReview
 
 interface ApiCallback {
-    suspend fun getMoviesPopular(uid: String) : LiveData<MovieRespone>
+//    suspend fun getMoviesPopular(uid: String) : LiveData<MovieRespone>
 
     fun getMoviesTopRated(uid: String): LiveData<MovieRespone>
     fun getMoviesNowPlaying(uid: String): LiveData<MovieRespone>
